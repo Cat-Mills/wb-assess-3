@@ -18,7 +18,7 @@ nunjucks.configure('views', {
   express: app,
 });
 
-const MOST_LIKED_FOSSILS = {
+const MOST_LIKED_FOSSILS = { //?The data used to build the contents of the example page
   aust: {
     img: '/img/australopith.png',
     name: 'Australopithecus',
@@ -61,6 +61,49 @@ const OTHER_FOSSILS = [
 ];
 
 // TODO: Replace this comment with your code
+//* Make a route for /top-fossils that displays data from MOST_LIKED_FOSSILS. 
+
+
+
+
+
+
+
+
+
+// app.get('/top-fossils', (req,res) => {
+//   res.render('top-fossils.html.njk'
+//   // ,{
+//   //   fossils:  {
+//   //     name: name,
+//   //     img: img,
+//   //     num_likes: num_likes
+//   //   }
+//   //   fossils: Object.values(getFossilDetails())
+//   //   img: img, name: name, num_likes: num_likes
+//   // }
+//   )
+// })
+app.get('/top-fossils', (req,res) => {
+  let fossils = Object.values(MOST_LIKED_FOSSILS)
+  // fossils = {name: fossils.name, img: fossils.img, num_likes: fossils.num_likes}
+  res.render('top-fossils.html.njk',{fossils})
+  }
+)
+
+app.get('/', (req,res) => {
+  res.render('homepage.html.njk')
+})
+
+app.get('/get-name', (req,res) => {
+  const name = req.params.name
+  res.render('top-fossils.html.njk', {name: name})
+  // const sess = req.session;
+  // sess.name = req.query.name
+  // res.render('top-fossils.html.njk')
+})
+
+
 
 app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);

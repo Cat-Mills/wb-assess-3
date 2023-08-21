@@ -1,3 +1,4 @@
+import axios from 'axios';
 import express from 'express';
 import session from 'express-session';
 import lodash from 'lodash';
@@ -63,14 +64,6 @@ const OTHER_FOSSILS = [
 // TODO: Replace this comment with your code
 //* Make a route for /top-fossils that displays data from MOST_LIKED_FOSSILS. 
 
-
-
-
-
-
-
-
-
 // app.get('/top-fossils', (req,res) => {
 //   res.render('top-fossils.html.njk'
 //   // ,{
@@ -84,24 +77,40 @@ const OTHER_FOSSILS = [
 //   // }
 //   )
 // })
-app.get('/top-fossils', (req,res) => {
-  let fossils = Object.values(MOST_LIKED_FOSSILS)
-  // fossils = {name: fossils.name, img: fossils.img, num_likes: fossils.num_likes}
-  res.render('top-fossils.html.njk',{fossils})
-  }
-)
 
-app.get('/', (req,res) => {
-  res.render('homepage.html.njk')
-})
+app.get('/top-fossils', (req,res) => {
+  let sessName = req.session.name
+  // let fossils = Object.values(MOST_LIKED_FOSSILS)
+  // fossils = {name: fossils.name, img: fossils.img, num_likes: fossils.num_likes}
+  if (sessName) {
+    res.render('top-fossils.html.njk',{fossils: Object.values(MOST_LIKED_FOSSILS), sessName})
+  } else {
+    res.redirect('/')
+  }
+});
 
 app.get('/get-name', (req,res) => {
-  const name = req.params.name
-  res.render('top-fossils.html.njk', {name: name})
-  // const sess = req.session;
-  // sess.name = req.query.name
-  // res.render('top-fossils.html.njk')
-})
+  if (req.query.name) {
+    req.session.name = req.query.name
+  } else {
+    req.session.name = "Stranger"
+  }
+  res.redirect('/top-fossils')
+});
+
+
+
+app.get('/', (req,res) => {
+  let sessName = req.session.name
+  if (sessName) {
+    res.redirect('/top-fossils')
+  } else {
+  res.render('homepage.html.njk')}
+});
+
+// const sess = req.session;
+// sess.name = req.query.name
+// res.render('top-fossils.html.njk')
 
 
 
@@ -109,6 +118,29 @@ app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);
   res.json(randomFossil);
 });
+
+
+app.post('/like-fossil', (req,res) => {
+  console.log(1000, req.body.fossilId)
+  let sessName = req.session.name
+  if (req.body.fossilId)
+  {MOST_LIKED_FOSSILS[req.body.fossilId].num_likes += 1}
+
+  console.log ("yeahhh!")
+  res.render("thank-you.html.njk", {sessName});
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 ViteExpress.listen(app, port, () => {
   console.log(`Server running on http://localhost:${port}...`);

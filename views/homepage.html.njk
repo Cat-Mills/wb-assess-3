@@ -1,3 +1,4 @@
+{%extends "base.html.njk"%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Most Liked Fossils</title>
   </head>
-  <body>
-{# {%extends base.html.njk%} #}
+  <body>{% block fossils%}
     <h1>Most Liked Fossils</h1>
+        {% endblock%}
 
+        {% block form %}
     <form action="/get-name">
       <div>
         <label for="namefield">What's your name?</label>
@@ -26,5 +28,6 @@
     <p id="random-fossil-name"></p>
 
     <script type="module" src="../src/random-fossil.js"></script>
+        {% endblock %}
   </body>
 </html>

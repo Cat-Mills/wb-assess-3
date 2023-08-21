@@ -1,2 +1,10 @@
 <!-- This has been left intentionally empty -->
-{%extends base.html.njk%}
+{%extends "base.html.njk"%}
+        {% block fossils %}
+        <h1>Thank you, {{sessName}}</h1>
+        {% endblock %}   
+        {% block form %}
+        <form action="top-fossils">
+        <button id= "topFossilsURL" type="submit">Click here to go back to top fossils.</button>
+        </form>
+        {% endblock %}

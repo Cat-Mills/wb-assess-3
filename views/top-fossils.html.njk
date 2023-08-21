@@ -1,3 +1,4 @@
+{%extends "base.html.njk"%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,22 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Most Liked Fossils</title>
   </head>
-  <body>
-{# {%extends base.html.njk%} #}
-    <h1>Hello, {{name}}</h1>
-    <div class="fossil-div"> {#? Template with starter code. Not enough to display all the fossils. Only displays facts on one fossil. #}
-      {%for id in fossils%}
-        <h3>{{ fossils[id].name }}</h3>
-        <h2>Liked {{ fossils[id].num_likes }} times.</h2>
-        <img src="{{ fossils[id].img }}" />
+  <body> 
+        {% block fossils %}
+    <h1>Hello, {{sessName}}. Here are some popular fossils.</h1>
+    <div class= "fossil-div"> {#? Template with starter code. Not enough to display all the fossils. Only displays facts on one fossil. #}
+      {%for fossil in fossils%}
+        <h3>{{ fossil.name }}</h3>
+        <h2>Liked {{ fossil.num_likes }} times.</h2>
+        <img src= "{{ fossil.img }}" />
       {% endfor %}
-      <form>
-        <select id="fossil-id-field" name= "fossil-id">
-          <option>{{fossils[0].name}}</option>
-          <option>{{fossils[1].name}}</option>
-          <option>{{fossils[2].name}}</option>
-          <option>{{fossils[3].name}}</option>
+        {% endblock %}
+        {% block form %}
+      <form action="/like-fossil" method= "POST"> Select your favorite.
+        <select id= "fossil-like" name= "fossilId">
+          <option value= "aust">{{fossils[0].name}}</option>
+          <option value= "quetz">{{fossils[1].name}}</option>
+          <option value= "steg">{{fossils[2].name}}</option>
+          <option value= "trex">{{fossils[3].name}}</option>
         </select>
+        <button id= "likeSubmit" type="submit">Submit</button>
+        {% endblock %}
       </form>
     </div>
   </body>
